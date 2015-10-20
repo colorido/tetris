@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+	#field{
+		border:solid 1px #222;
+	}
+	</style>
+	<script type="text/javascript">
+	var ctx;
+	var field; 
+	var mino;
+
+
+	function init() {
+		var canvas = document.getElementById("field");
+		ctx = canvas.getContext("2d");
+
+
+		ctx.beginPath();
+
+		for(var i = 0; i < 20; i++) {
+			for(var j = 0; j < 10; j++) {
+				ctx.strokeRect(j*30, i*30, 30, 30);
+			}
+		}
+
+		mino = [
+			[
+				[1,1,1,1],
+				[0,0,0,0]
+			],
+
+			[
+				[0,1,1,0],
+				[0,1,1,0]
+			]
+
+			[
+				[1,1,0,0],
+				[0,1,1,0]
+			]
+		]
+
+	}
+
+	function drawMass(x,y) {
+		ctx.fillRect(x*30,y*30,30,30);
+	}
+
+	function draw() {
+		
+		drawMass(1,1);
+		drawMass(2,2);
+	}
+
+	onload = function() {
+		init();
+		draw();
+		alert();
+	}
+	</script>
+</head>
+<body>
+
+<canvas id="field" width="300" height="600"></canvas>
+
+</body>
+</html>
