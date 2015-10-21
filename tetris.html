@@ -3,26 +3,37 @@
 <head>
 	<title></title>
 	<style type="text/css">
-	#field{
+	#c2{
 		border:solid 1px #222;
 	}
 	</style>
 	<script type="text/javascript">
 	var ctx;
-	var field; 
+	var block;
 	var mino;
-
+	var field;
+	var X;
+	var Y = 0;
+	var timeCount;
 
 	function init() {
-		var canvas = document.getElementById("field");
+		var canvas = document.getElementById("c2");
 		ctx = canvas.getContext("2d");
-
 
 		ctx.beginPath();
 
+		var BLOCK = function() {
+			this.status = 0;
+			this.color  = 'rgb(255, 255, 255)';
+		}
+
+		field = Array();
+
 		for(var i = 0; i < 20; i++) {
+			field[i] = Array();
 			for(var j = 0; j < 10; j++) {
 				ctx.strokeRect(j*30, i*30, 30, 30);
+				field[i][j] = new BLOCK();
 			}
 		}
 
@@ -35,36 +46,143 @@
 			[
 				[0,1,1,0],
 				[0,1,1,0]
-			]
+			],
 
 			[
 				[1,1,0,0],
 				[0,1,1,0]
+			],
+
+
+			[
+				[0,1,1,0],
+				[1,1,0,0]
+			],
+
+			[
+				[1,0,0,0],
+				[1,1,1,0]
+			],
+
+			[
+				[1,1,1,0],
+				[0,0,1,0]
+			],			
+
+			[
+				[0,1,0,0],
+				[1,1,1,0]
 			]
+
 		]
 
 	}
 
-	function drawMass(x,y) {
-		ctx.fillRect(x*30,y*30,30,30);
+	function drawMass(x,y,status,color) {
+		if(status == 0) {
+			ctx.fillStyle = 'rgb(255, 255, 255)';
+		}else{
+			ctx.fillStyle = color;	
+		}
+			ctx.fillRect(x*30,y*30,30,30);
+			ctx.strokeRect(x*30, y*30, 30, 30);
+	}
+
+	function setMino(x,y,minoType){
+
+		var inst = false;
+
+		if(minoType == 0) {
+			color = 'rgb(155, 187, 89)';
+		}else if(minoType == 1) {
+			color = 'rgb(155, 187, 89)';
+		}else if(minoType == 2) {
+			color = 'rgb(155, 187, 89)';
+		}else if(minoType == 3) {
+			color = 'rgb(155, 187, 89)';
+		}else if(minoType == 4) {
+			color = 'rgb(155, 187, 89)';
+		}else if(minoType == 5) {
+			color = 'rgb(155, 187, 89)';
+		}else if(minoType == 6) {
+			color = 'rgb(155, 187, 89)';
+		}
+
+		for(var i = 0; i < 2; i++) {
+			for(var j = 0; j < 4; j++) {
+				field[y+i][x+j].color = color;
+				field[y+i][x+j].status = mino[minoType][i][j];
+				if(y+i+1 >= 20) {
+					inst = true;
+				}else if(field[y+i+1][x+j].status == 2){
+					inst = true
+				}
+			}
+		}
+
+		return inst;
+
+	}
+
+	function clearMino(){
+
+		for(var i = 0; i < 20; i++) {
+			for(var j = 0; j < 10; j++) {
+				if(field[i][j].status == 1) field[i][j].status = 0;
+			}
+		}
+
+	}
+
+	function checkInst() {
+		for(var i = 0; i < 10; i++) {
+			for(var j = 0; j < 20; j++) {
+				if(field[j][i].status == 1) {
+					if( j+1 == 20) {
+						return true;
+					}else if(field[j+1][i].status == 2) {
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 
 	function draw() {
-		
-		drawMass(1,1);
-		drawMass(2,2);
+
+		var inc = 1;
+
+		if( checkInst() ) {
+			inc = 0;	
+		}
+
+		Y += inc;
+
+		field[19][3].status = 2;
+		field[19][3].color = 'rgb(155, 187, 89)';
+
+		clearMino();
+		setMino(1,Y,2);
+
+		for(var i = 0; i < 20; i++) {
+			for(var j = 0; j < 10; j++) {
+				drawMass(j,i,field[i][j].status,field[i][j].color);
+			}
+		}
 	}
 
 	onload = function() {
 		init();
-		draw();
+		setInterval("draw()",200);
 		alert();
 	}
 	</script>
 </head>
 <body>
 
-<canvas id="field" width="300" height="600"></canvas>
+<canvas id="c2" width="300" height="600"></canvas>
 
 </body>
 </html>
