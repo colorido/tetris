@@ -125,6 +125,14 @@
 
 	}
 
+	function instMino() {
+		for(var i = 0; i < 20; i++) {
+			for(var j = 0; j < 10; j++) {
+				if(field[i][j].status == 1) field[i][j].status = 2;
+			}
+		}
+	}
+
 	function checkInst() {
 		for(var i = 0; i < 10; i++) {
 			for(var j = 0; j < 20; j++) {
@@ -146,13 +154,12 @@
 		var inc = 1;
 
 		if( checkInst() ) {
-			inc = 0;	
+			inc = 0;
+			instMino();
+			Y = 0;
 		}
 
 		Y += inc;
-
-		field[19][3].status = 2;
-		field[19][3].color = 'rgb(155, 187, 89)';
 
 		clearMino();
 		setMino(1,Y,2);
