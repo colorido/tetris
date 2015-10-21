@@ -90,8 +90,6 @@
 
 	function setMino(x,y,minoType){
 
-		var inst = false;
-
 		if(minoType == 0) {
 			color = 'rgb(155, 187, 89)';
 		}else if(minoType == 1) {
@@ -112,15 +110,8 @@
 			for(var j = 0; j < 4; j++) {
 				field[y+i][x+j].color = color;
 				field[y+i][x+j].status = mino[minoType][i][j];
-				if(y+i+1 >= 20) {
-					inst = true;
-				}else if(field[y+i+1][x+j].status == 2){
-					inst = true
-				}
 			}
 		}
-
-		return inst;
 
 	}
 
