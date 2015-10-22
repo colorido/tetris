@@ -12,7 +12,7 @@
 	var block;
 	var mino;
 	var field;
-	var X;
+	var X = 3;
 	var Y = 0;
 	var timeCount;
 
@@ -108,8 +108,10 @@
 
 		for(var i = 0; i < 2; i++) {
 			for(var j = 0; j < 4; j++) {
-				field[y+i][x+j].color = color;
-				field[y+i][x+j].status = mino[minoType][i][j];
+				if(mino[minoType][i][j] == 1){
+					field[y+i][x+j].color = color;
+					field[y+i][x+j].status = mino[minoType][i][j];
+				}
 			}
 		}
 
@@ -122,7 +124,6 @@
 				if(field[i][j].status == 1) field[i][j].status = 0;
 			}
 		}
-
 	}
 
 	function instMino() {
@@ -162,13 +163,39 @@
 		Y += inc;
 
 		clearMino();
-		setMino(1,Y,2);
+		setMino(X,Y,6);
 
 		for(var i = 0; i < 20; i++) {
 			for(var j = 0; j < 10; j++) {
 				drawMass(j,i,field[i][j].status,field[i][j].color);
 			}
 		}
+	}
+
+	window.document.onkeyup = function(evt){
+
+		if (evt){
+			var kc = evt.keyCode;
+		}else{
+			var kc = event.keyCode;
+		}
+
+		var chr = String.fromCharCode(kc);
+
+		switch(kc){
+			case 37 :
+				X -= 1;
+				break;
+			case 39 :
+				X += 1;
+				break;
+			case 8 :
+				break;
+		}
+
+		if( X < 0) X = 0;
+		if( X > 8) X = 8;
+
 	}
 
 	onload = function() {
